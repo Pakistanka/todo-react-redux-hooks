@@ -9,12 +9,8 @@ function StudentInput() {
     let [marks, setMarks] = useState(); 
     let dispatch = useDispatch();
 
-    const shoot = () => {
-        alert("Great Shot!");
-    }
-
     let button = (
-        <button className="btn btn-primary mx-2" onClick={shoot} disabled>Добавить</button>
+        <button className="btn btn-primary mx-2" disabled>Добавить</button>
     )                
 
     if (name && date && marks) {
