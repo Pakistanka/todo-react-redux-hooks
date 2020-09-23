@@ -1,37 +1,35 @@
-import {ADD_STUDENT, DELETE_STUDENT, UPDATE_STUDENT} from './actions';
+import { ADD_STUDENT, DELETE_STUDENT, UPDATE_STUDENT } from './actions';
 import { students } from './states';
 
 export let reducer = (state = students, action) => {
-    let newStudents;
     switch (action.type) {
 
         case ADD_STUDENT:
-            newStudents = [...state];
-            newStudents.push(action.payload);
-            return newStudents;
+            const student = action.payload;
+            return new Map([
+                ...state,
+                [student.id, student],
+            ]);
 
         case DELETE_STUDENT:
-            newStudents = [...state];
-            newStudents = newStudents.filter(student=>student.id !== action.payload) 
+            const newStudents = new Map(state);
+            delete newStudents.delete(action.payload);
+
             return newStudents;
 
-            case UPDATE_STUDENT:
-                newStudents = [...state];
-    
-                newStudents.map(student => {
-                    if (student.id === action.payload.id){                    
-                        return {
-                            ...student,
-                            student: student.name = action.payload.name
-                        }
-                    } 
-                    return student;
-                })
-                return newStudents;
+        case UPDATE_STUDENT:
+            const { id } = action.payload;
 
-            
+            state.set(id, {
+                ...state.get(id),
+                ...action.payload
+            })
+
+            return state;
+
         default:
 
     }
+
     return state;
 }
