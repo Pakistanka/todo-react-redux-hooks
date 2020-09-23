@@ -1,9 +1,16 @@
 import React from 'react';
+import { createSelector } from 'reselect';
 import StudentItem from './StudentItem';
 import { useSelector } from 'react-redux';
 
-function StudentList(actions) {
-    let students = useSelector(state => state)
+const getItemsSelector = createSelector(
+    state => state,
+    items => [...items.keys()],
+);
+
+function StudentList() {
+    const studentIds = useSelector(state => getItemsSelector(state));
+    console.log('render list');
     return (
         <div className="my-4">
             <div className="row m-2 d-flex justify-content-around">
@@ -11,9 +18,9 @@ function StudentList(actions) {
                 <p>Дата рождения</p>
                 <p>Успеваемость</p>
             </div>
-           {students.map(student => {
-               return <StudentItem key={student.id} student={student} {...actions}/>
-           })}
+           {studentIds.map(studentId => (
+               <StudentItem key={studentId} studentId={studentId} />
+           ))}
         </div>
     )
 }
